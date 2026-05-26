@@ -465,28 +465,42 @@ button { font-family: inherit; }
   line-height: 1;
 }
 .biz-stat-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px; }
-.biz-logos {
+.biz-sectors {
   display: flex;
   gap: 8px;
-  align-items: center;
+  align-items: stretch;
   flex: 1;
 }
-.biz-logo {
+.biz-sector {
   flex: 1;
-  height: 100%;
-  max-height: 90px;
   border-radius: 14px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
-  font-family: 'Inter', sans-serif;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: transform 200ms ease;
+  gap: 7px;
+  padding: 10px 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 200ms ease, border-color 200ms ease;
 }
-.card:hover .biz-logo:nth-child(odd) { transform: translateY(-2px); }
-.card:hover .biz-logo:nth-child(even) { transform: translateY(2px); }
+.biz-sector:nth-child(1) { background: linear-gradient(145deg,#140e28,#1e1535); border-color: rgba(167,139,250,0.18); }
+.biz-sector:nth-child(2) { background: linear-gradient(145deg,#0a1a10,#0e2816); border-color: rgba(74,222,128,0.18); }
+.biz-sector:nth-child(3) { background: linear-gradient(145deg,#1a1000,#2a1a00); border-color: rgba(245,158,11,0.18); }
+.biz-sector:nth-child(4) { background: linear-gradient(145deg,#0a1420,#0e1e30); border-color: rgba(96,165,250,0.18); }
+.biz-sector:nth-child(5) { background: linear-gradient(145deg,#1a0808,#2a1010); border-color: rgba(248,113,113,0.18); }
+.biz-sector-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.biz-sector-name {
+  font-size: 9px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-2);
+  text-align: center;
+  line-height: 1.3;
+}
+.card:hover .biz-sector:nth-child(odd) { transform: translateY(-2px); }
+.card:hover .biz-sector:nth-child(even) { transform: translateY(2px); }
 .biz-divider {
   height: 1px;
   background: rgba(255,255,255,0.05);
@@ -974,12 +988,27 @@ button { font-family: inherit; }
             </div>
           </div>
         </div>
-        <div class="biz-logos">
-          <div class="biz-logo" style="background:linear-gradient(135deg,#140e28,#1e1535);color:#a78bfa;">V</div>
-          <div class="biz-logo" style="background:linear-gradient(135deg,#0a1a10,#0e2816);color:#4ade80;">E</div>
-          <div class="biz-logo" style="background:linear-gradient(135deg,#1a1000,#2a1a00);color:#f59e0b;">A</div>
-          <div class="biz-logo" style="background:linear-gradient(135deg,#0a1420,#0e1e30);color:#60a5fa;">N</div>
-          <div class="biz-logo" style="background:linear-gradient(135deg,#1a0808,#2a1010);color:#f87171;">X</div>
+        <div class="biz-sectors">
+          <div class="biz-sector">
+            <svg class="biz-sector-icon" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <div class="biz-sector-name">Trading</div>
+          </div>
+          <div class="biz-sector">
+            <svg class="biz-sector-icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div class="biz-sector-name">Real Estate</div>
+          </div>
+          <div class="biz-sector">
+            <svg class="biz-sector-icon" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <div class="biz-sector-name">Tech</div>
+          </div>
+          <div class="biz-sector">
+            <svg class="biz-sector-icon" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M3 10h18v11H3z"/><line x1="12" y1="10" x2="12" y2="21"/></svg>
+            <div class="biz-sector-name">Hospitality</div>
+          </div>
+          <div class="biz-sector">
+            <svg class="biz-sector-icon" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+            <div class="biz-sector-name">Services</div>
+          </div>
         </div>
       </div>
     </article>
@@ -1034,7 +1063,7 @@ button { font-family: inherit; }
 
     <!-- ── PENTHOUSE (1×1) ── -->
     <article class="card c-penthouse overlay-bottom" tabindex="0" aria-label="Goal: city penthouse">
-      <img class="card-photo" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=500&fit=crop&q=85" alt="City penthouse interior" loading="lazy">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&h=500&fit=crop&q=85" alt="Luxury glass penthouse city view" loading="lazy">
       <div class="photo-body bottom">
         <span class="tag">Home #1</span>
         <div class="card-title">The City Penthouse</div>
