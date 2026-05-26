@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Board · 2026–2031</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root {
+  --bg:          #000000;
+  --board-bg:    #0a0a0d;
+  --surface:     #111116;
+  --surface-2:   #16161c;
+  --border:      rgba(255,255,255,0.07);
+  --border-gold: rgba(201,168,76,0.3);
+  --gold:        #c9a84c;
+  --gold-lt:     #f0c659;
+  --gold-glow:   rgba(201,168,76,0.15);
+  --green:       #22c55e;
+  --green-glow:  rgba(34,197,94,0.12);
+  --red:         #ef4444;
+  --text:        #f0eadc;
+  --text-2:      #8a7f6e;
+  --text-3:      #4a4438;
+  --radius:      20px;
+  --gap:         12px;
+  --row:         258px;
+  --shadow:      0 8px 32px rgba(0,0,0,0.6);
+  --shadow-hover:0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(201,168,76,0.1);
+}
+
+/* ─────────────────────────────────────────
+   RESET + BASE
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; color-scheme: dark; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+img { display: block; }
+button { font-family: inherit; }
+
+/* ─────────────────────────────────────────
+   PAGE SHELL
+───────────────────────────────────────── */
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ─────────────────────────────────────────
+   HEADER
+───────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 60px 0 36px;
+  gap: 24px;
+}
+.header-left {}
+.header-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+.header-title em { font-style: italic; color: var(--gold); }
+.header-right {
+  flex-shrink: 0;
+  text-align: right;
+}
+.header-horizon {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 4px;
+}
+.header-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-3);
+}
+
+/* ─────────────────────────────────────────
+   BENTO BOARD
+───────────────────────────────────────── */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, var(--row));
+  gap: var(--gap);
+  background: var(--board-bg);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 28px;
+  padding: 12px;
+}
+
+/* Explicit placement */
+.c-trading    { grid-column: 1 / 3; grid-row: 1 / 3; }
+.c-marathon   { grid-column: 3 / 4; grid-row: 1 / 3; }
+.c-networth   { grid-column: 4 / 5; grid-row: 1 / 2; }
+.c-porsche    { grid-column: 4 / 5; grid-row: 2 / 3; }
+.c-businesses { grid-column: 1 / 3; grid-row: 3 / 4; }
+.c-airbnb     { grid-column: 3 / 5; grid-row: 3 / 4; }
+.c-penthouse  { grid-column: 1 / 2; grid-row: 4 / 5; }
+.c-house      { grid-column: 2 / 3; grid-row: 4 / 5; }
+.c-circle     { grid-column: 3 / 4; grid-row: 4 / 5; }
+.c-crisis     { grid-column: 4 / 5; grid-row: 4 / 5; }
+.c-quote      { grid-column: 1 / 5; grid-row: 5 / 6; }
+
+/* ─────────────────────────────────────────
+   BASE CARD
+───────────────────────────────────────── */
+.card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform 220ms cubic-bezier(.34,1.56,.64,1),
+              box-shadow 220ms ease,
+              border-color 220ms ease;
+  cursor: pointer;
+}
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-gold);
+  z-index: 2;
+}
+.card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+/* Gold top rule on featured cards */
+.card.featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,168,76,0.2));
+  z-index: 4;
+}
+
+/* Photo layer */
+.card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 500ms ease;
+}
+.card:hover .card-photo { transform: scale(1.06); }
+
+/* Photo overlays */
+.overlay-bottom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%);
+  z-index: 1;
+}
+.overlay-full::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.52);
+  z-index: 1;
+}
+
+/* Text on top of photo */
+.photo-body {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+}
+.photo-body.bottom { justify-content: flex-end; }
+.photo-body.center { justify-content: center; align-items: center; text-align: center; }
+
+/* ─────────────────────────────────────────
+   SHARED ATOMS
+───────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 6px;
+  padding: 3px 9px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+  backdrop-filter: blur(4px);
+}
+.tag.tg-green {
+  color: var(--green);
+  background: rgba(34,197,94,0.08);
+  border-color: rgba(34,197,94,0.28);
+}
+.photo-body.center .tag { align-self: center; }
+
+.card-stat {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+}
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(14px, 1.8vw, 19px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
+.card-desc {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(240,234,220,0.65);
+  line-height: 1.5;
+}
+
+/* mono numbers */
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ═══════════════════════════════════════════════
+   CARD: TRADING PnL  (2×2)
+═══════════════════════════════════════════════ */
+.trading-inner {
+  position: absolute;
+  inset: 0;
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #030a10 0%, #060c14 50%, #040a0d 100%);
+}
+/* faint grid lines */
+.trading-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.t-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  position: relative;
+}
+.t-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(34,197,94,0.6);
+  margin-bottom: 3px;
+}
+.t-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.t-status {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+  border-radius: 5px;
+  padding: 3px 8px;
+}
+.t-pnl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(48px, 5.5vw, 72px);
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 5px;
+  text-shadow: 0 0 40px rgba(34,197,94,0.4);
+  position: relative;
+}
+.t-roi {
+  font-size: 12px;
+  color: rgba(34,197,94,0.7);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.t-roi span { color: var(--text-3); }
+.chart-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 80px;
+  flex: 1;
+}
+.bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  min-height: 6px;
+  transition: opacity 200ms;
+}
+.bar.pos { background: linear-gradient(to top, rgba(34,197,94,0.5), rgba(34,197,94,0.8)); }
+.bar.neg { background: linear-gradient(to top, rgba(239,68,68,0.4), rgba(239,68,68,0.65)); }
+.card:hover .bar { opacity: 0.9; }
+.t-footer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.t-metric { display: flex; flex-direction: column; gap: 2px; }
+.t-metric-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-3); }
+.t-metric-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.t-metric-val.pos { color: var(--green); }
+.t-metric-val.neg { color: var(--red); }
+
+/* ═══════════════════════════════════════════════
+   CARD: NET WORTH  (1×1)
+═══════════════════════════════════════════════ */
+.nw-inner {
+  position: absolute;
+  inset: 0;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0c0a14, #0a0d0c);
+}
+.nw-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.nw-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.nw-change {
+  font-size: 11px;
+  color: var(--green);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nw-bars { display: flex; flex-direction: column; gap: 9px; }
+.nw-row { display: flex; align-items: center; gap: 8px; }
+.nw-row-label { font-size: 10px; color: var(--text-2); width: 80px; flex-shrink: 0; }
+.nw-bar-track { flex: 1; height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+.nw-bar-fill { height: 100%; border-radius: 3px; }
+.nw-row-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-2);
+  width: 44px;
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════
+   CARD: BUSINESSES  (2×1)
+═══════════════════════════════════════════════ */
+.biz-inner {
+  position: absolute;
+  inset: 0;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  background: #0d0b12;
+}
+.biz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.biz-title-group {}
+.biz-main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.biz-sub {
+  font-size: 11px;
+  color: var(--text-2);
+  margin-top: 3px;
+}
+.biz-stat-group {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.biz-stat { text-align: right; }
+.biz-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+.biz-stat-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px; }
+.biz-logos {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 1;
+}
+.biz-logo {
+  flex: 1;
+  height: 100%;
+  max-height: 90px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 200ms ease;
+}
+.card:hover .biz-logo:nth-child(odd) { transform: translateY(-2px); }
+.card:hover .biz-logo:nth-child(even) { transform: translateY(2px); }
+.biz-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+.biz-bottom {
+  display: flex;
+  gap: 20px;
+}
+.biz-bottom-item { display: flex; flex-direction: column; gap: 2px; }
+.biz-bottom-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.biz-bottom-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* ═══════════════════════════════════════════════
+   CARD: AIRBNB  (2×1 — wide/short)
+═══════════════════════════════════════════════ */
+.ab-inner {
+  position: absolute;
+  inset: 0;
+  padding: 22px 24px;
+  display: flex;
+  gap: 20px;
+  background: #0c0c10;
+}
+.ab-left { flex: 1; display: flex; flex-direction: column; }
+.ab-right {
+  width: 220px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ab-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.ab-logo-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #ff5a5f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ab-logo-dot svg { width: 11px; height: 11px; fill: white; }
+.ab-logo-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ff5a5f;
+  letter-spacing: -0.3px;
+}
+.ab-superhost {
+  margin-left: auto;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ff5a5f;
+  background: rgba(255,90,95,0.1);
+  border: 1px solid rgba(255,90,95,0.25);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.ab-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  flex: 1;
+}
+.ab-stat-box {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.ab-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.ab-stat-val.green { color: var(--green); }
+.ab-stat-label { font-size: 9px; color: var(--text-2); text-transform: uppercase; letter-spacing: 1px; }
+.ab-thumb {
+  position: relative;
+  overflow: hidden;
+  background: #1a1820;
+}
+.ab-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transition: opacity 200ms;
+}
+.card:hover .ab-thumb img { opacity: 0.9; }
+.ab-thumb-price {
+  position: absolute;
+  bottom: 4px; left: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: #fff;
+  background: rgba(0,0,0,0.75);
+  border-radius: 4px;
+  padding: 2px 5px;
+  backdrop-filter: blur(4px);
+}
+.ab-thumb-more {
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  border-radius: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   CARD: MARATHON  (1×2)
+═══════════════════════════════════════════════ */
+.marathon-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+}
+.m-finisher {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 5px;
+  padding: 3px 10px;
+  align-self: flex-start;
+  margin-bottom: 12px;
+  backdrop-filter: blur(6px);
+}
+.m-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(40px, 5vw, 56px);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+}
+.m-race { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.m-detail { font-size: 11px; color: rgba(240,234,220,0.55); }
+
+/* ═══════════════════════════════════════════════
+   CARD: INNER CIRCLE  (1×1)
+═══════════════════════════════════════════════ */
+.circle-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  padding: 20px;
+}
+.circle-avatars {
+  display: flex;
+  margin-bottom: 10px;
+}
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(201,168,76,0.5);
+  background: linear-gradient(135deg, #1e1830, #140e28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-right: -6px;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   CARD: QUOTE  (4×1 full-width)
+═══════════════════════════════════════════════ */
+.quote-card {
+  background: linear-gradient(135deg, #100d06 0%, #0d0a07 50%, #0c0d0a 100%);
+  border-color: rgba(201,168,76,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.quote-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.quote-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 100% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.12);
+  line-height: 0.7;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  max-width: 720px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.quote-text em { color: var(--gold); font-style: normal; }
+.quote-attr {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 48px 0 0;
+}
+.footer-line {
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+  margin: 0 auto 28px;
+}
+.footer p {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-3);
+  letter-spacing: 0.5px;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .board {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: var(--row);
+  }
+  .c-trading    { grid-column: 1/3; grid-row: 1/3; }
+  .c-marathon   { grid-column: 1/2; grid-row: 3/5; }
+  .c-networth   { grid-column: 2/3; grid-row: 3/4; }
+  .c-porsche    { grid-column: 2/3; grid-row: 4/5; }
+  .c-businesses { grid-column: 1/3; grid-row: 5/6; }
+  .c-airbnb     { grid-column: 1/3; grid-row: 6/7; }
+  .c-penthouse  { grid-column: 1/2; grid-row: 7/8; }
+  .c-house      { grid-column: 2/3; grid-row: 7/8; }
+  .c-circle     { grid-column: 1/2; grid-row: 8/9; }
+  .c-crisis     { grid-column: 2/3; grid-row: 8/9; }
+  .c-quote      { grid-column: 1/3; grid-row: 9/10; }
+  .ab-right { width: 160px; }
+}
+@media (max-width: 640px) {
+  :root { --row: 280px; --gap: 8px; }
+  .board {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    padding: 8px;
+    border-radius: 20px;
+  }
+  .c-trading,.c-marathon,.c-networth,.c-porsche,
+  .c-businesses,.c-airbnb,.c-penthouse,.c-house,
+  .c-circle,.c-crisis,.c-quote {
+    grid-column: 1/2;
+    grid-row: auto;
+  }
+  .trading-inner,.nw-inner,.biz-inner,.ab-inner {
+    position: relative; height: 280px;
+  }
+  .page { padding: 0 12px 60px; }
+  .header { flex-direction: column; align-items: flex-start; padding: 40px 0 28px; }
+  .header-right { text-align: left; }
+  .ab-right { display: none; }
+  .ab-left { flex: none; }
+  .quote-card { padding: 32px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .card:hover { transform: none; }
+  .card:hover .card-photo, .card:hover .card-img { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-eyebrow">Personal Vision Board</div>
+      <h1 class="header-title">Build the <em>Empire.</em></h1>
+    </div>
+    <div class="header-right">
+      <div class="header-horizon">Horizon</div>
+      <div class="header-date">2026–2031</div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       BENTO BOARD
+  ═══════════════════════════════════════ -->
+  <main class="board" role="main" aria-label="Vision board goals">
+
+    <!-- ── TRADING PnL (2×2) ── -->
+    <article class="card c-trading featured" tabindex="0" aria-label="Trading goal: $10K per month">
+      <div class="trading-inner">
+        <div class="t-header">
+          <div>
+            <div class="t-label">Portfolio Performance</div>
+            <div class="t-period">May 2031 &nbsp;·&nbsp; Monthly P&amp;L</div>
+          </div>
+          <div class="t-status">PROFITABLE</div>
+        </div>
+
+        <div class="t-pnl">+$10,847</div>
+        <div class="t-roi">
+          <span>↑ 8.4% ROI this month</span>
+          <span style="color:var(--text-3)">·</span>
+          <span>23 winning trades</span>
+        </div>
+
+        <div class="chart-wrap">
+          <div class="bar pos" style="height:32%"></div>
+          <div class="bar pos" style="height:48%"></div>
+          <div class="bar neg" style="height:20%"></div>
+          <div class="bar pos" style="height:65%"></div>
+          <div class="bar pos" style="height:44%"></div>
+          <div class="bar neg" style="height:16%"></div>
+          <div class="bar pos" style="height:72%"></div>
+          <div class="bar pos" style="height:55%"></div>
+          <div class="bar pos" style="height:88%"></div>
+          <div class="bar neg" style="height:25%"></div>
+          <div class="bar pos" style="height:100%"></div>
+          <div class="bar pos" style="height:80%"></div>
+          <div class="bar pos" style="height:74%"></div>
+          <div class="bar neg" style="height:18%"></div>
+          <div class="bar pos" style="height:92%"></div>
+        </div>
+
+        <div class="t-footer">
+          <div class="t-metric">
+            <div class="t-metric-label">Win Rate</div>
+            <div class="t-metric-val pos">71%</div>
+          </div>
+          <div class="t-metric">
+            <div class="t-metric-label">Avg Win</div>
+            <div class="t-metric-val pos">+$682</div>
+          </div>
+          <div class="t-metric">
+            <div class="t-metric-label">Avg Loss</div>
+            <div class="t-metric-val neg">−$241</div>
+          </div>
+          <div class="t-metric">
+            <div class="t-metric-label">Best Day</div>
+            <div class="t-metric-val pos">+$2,140</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── MARATHON (1×2) ── -->
+    <article class="card c-marathon overlay-bottom" tabindex="0" aria-label="Marathon goal: finish 26.2 miles">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1513593771513-7b58b6c4af38?w=700&h=700&fit=crop&crop=top&q=85" alt="Marathon runners crossing finish line" loading="lazy">
+      <div class="marathon-overlay">
+        <div class="m-finisher">
+          <svg width="8" height="8" viewBox="0 0 10 10" fill="none" style="display:inline;vertical-align:middle;margin-right:4px">
+            <path d="M2 5l2.5 2.5L8 3" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Finisher
+        </div>
+        <div class="m-time">4:18:22</div>
+        <div class="m-race">City Marathon 2030</div>
+        <div class="m-detail">26.2 mi &nbsp;·&nbsp; 11,847 finishers &nbsp;·&nbsp; Top 34%</div>
+      </div>
+    </article>
+
+    <!-- ── NET WORTH (1×1) ── -->
+    <article class="card c-networth featured" tabindex="0" aria-label="Net worth goal: one million dollars">
+      <div class="nw-inner">
+        <div class="nw-label">Net Worth</div>
+        <div class="nw-amount">$1,024,500</div>
+        <div class="nw-change">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 8V2M2 5l3-3 3 3" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          +$124k this year
+        </div>
+        <div class="nw-bars">
+          <div class="nw-row">
+            <div class="nw-row-label">Real Estate</div>
+            <div class="nw-bar-track"><div class="nw-bar-fill" style="width:61%;background:linear-gradient(90deg,#c9a84c,#f0c659)"></div></div>
+            <div class="nw-row-val">$624k</div>
+          </div>
+          <div class="nw-row">
+            <div class="nw-row-label">Businesses</div>
+            <div class="nw-bar-track"><div class="nw-bar-fill" style="width:22%;background:linear-gradient(90deg,#a78bfa,#818cf8)"></div></div>
+            <div class="nw-row-val">$222k</div>
+          </div>
+          <div class="nw-row">
+            <div class="nw-row-label">Trading</div>
+            <div class="nw-bar-track"><div class="nw-bar-fill" style="width:17%;background:linear-gradient(90deg,#22c55e,#4ade80)"></div></div>
+            <div class="nw-row-val">$178k</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── PORSCHE (1×1) ── -->
+    <article class="card c-porsche overlay-bottom" tabindex="0" aria-label="Goal: drive a Porsche">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop&crop=center&q=85" alt="Porsche on a road" loading="lazy">
+      <div class="photo-body bottom">
+        <span class="tag">The Reward</span>
+        <div class="card-title">Drive a Porsche</div>
+        <div class="card-desc">You earned it. Don't apologize for it.</div>
+      </div>
+    </article>
+
+    <!-- ── BUSINESSES (2×1) ── -->
+    <article class="card c-businesses featured" tabindex="0" aria-label="Goal: own 5 businesses">
+      <div class="biz-inner">
+        <div class="biz-top">
+          <div class="biz-title-group">
+            <span class="tag">Operator</span>
+            <div class="biz-main-title">5 Businesses Built &amp; Running</div>
+            <div class="biz-sub">Supporting hundreds of lives and families</div>
+          </div>
+          <div class="biz-stat-group">
+            <div class="biz-stat">
+              <div class="biz-stat-val" style="color:var(--green)">$2.4M</div>
+              <div class="biz-stat-label">Revenue</div>
+            </div>
+            <div class="biz-stat">
+              <div class="biz-stat-val">200+</div>
+              <div class="biz-stat-label">Employees</div>
+            </div>
+          </div>
+        </div>
+        <div class="biz-logos">
+          <div class="biz-logo" style="background:linear-gradient(135deg,#140e28,#1e1535);color:#a78bfa;">V</div>
+          <div class="biz-logo" style="background:linear-gradient(135deg,#0a1a10,#0e2816);color:#4ade80;">E</div>
+          <div class="biz-logo" style="background:linear-gradient(135deg,#1a1000,#2a1a00);color:#f59e0b;">A</div>
+          <div class="biz-logo" style="background:linear-gradient(135deg,#0a1420,#0e1e30);color:#60a5fa;">N</div>
+          <div class="biz-logo" style="background:linear-gradient(135deg,#1a0808,#2a1010);color:#f87171;">X</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── AIRBNB / PROPERTIES (2×1) ── -->
+    <article class="card c-airbnb" tabindex="0" aria-label="Goal: 10 real estate properties and Airbnbs">
+      <div class="ab-inner">
+        <div class="ab-left">
+          <div class="ab-header">
+            <div class="ab-logo-dot">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M12 2C9.28 2 7 4.24 7 7c0 4.5 5 11 5 11s5-6.5 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+            </div>
+            <span class="ab-logo-text">Airbnb</span>
+            <div class="ab-superhost">★ Superhost</div>
+          </div>
+          <div class="ab-stats-grid">
+            <div class="ab-stat-box">
+              <div class="ab-stat-val">10</div>
+              <div class="ab-stat-label">Active Listings</div>
+            </div>
+            <div class="ab-stat-box">
+              <div class="ab-stat-val green">$8,420</div>
+              <div class="ab-stat-label">This Month</div>
+            </div>
+            <div class="ab-stat-box">
+              <div class="ab-stat-val">4.92</div>
+              <div class="ab-stat-label">Avg Rating ★</div>
+            </div>
+            <div class="ab-stat-box">
+              <div class="ab-stat-val">87%</div>
+              <div class="ab-stat-label">Occupancy</div>
+            </div>
+          </div>
+        </div>
+        <div class="ab-right">
+          <div class="ab-thumb">
+            <img src="https://images.unsplash.com/photo-1560185127-6a8e0a4b4a2c?w=200&h=140&fit=crop&q=75" alt="Property 1" loading="lazy">
+            <div class="ab-thumb-price">$185/n</div>
+          </div>
+          <div class="ab-thumb">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=200&h=140&fit=crop&q=75" alt="Property 2" loading="lazy">
+            <div class="ab-thumb-price">$240/n</div>
+          </div>
+          <div class="ab-thumb">
+            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=200&h=140&fit=crop&q=75" alt="Property 3" loading="lazy">
+            <div class="ab-thumb-price">$165/n</div>
+          </div>
+          <div class="ab-thumb-more">+7 more</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── PENTHOUSE (1×1) ── -->
+    <article class="card c-penthouse overlay-bottom" tabindex="0" aria-label="Goal: city penthouse">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=500&fit=crop&q=85" alt="City penthouse interior" loading="lazy">
+      <div class="photo-body bottom">
+        <span class="tag">Home #1</span>
+        <div class="card-title">The City Penthouse</div>
+        <div class="card-desc">Views, energy, access.</div>
+      </div>
+    </article>
+
+    <!-- ── SUBURBS HOUSE (1×1) ── -->
+    <article class="card c-house overlay-bottom" tabindex="0" aria-label="Goal: house in the suburbs">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=500&fit=crop&q=85" alt="Luxury suburban home" loading="lazy">
+      <div class="photo-body bottom">
+        <span class="tag">Home #2</span>
+        <div class="card-title">Big House in the Suburbs</div>
+        <div class="card-desc">Space, quiet, roots.</div>
+      </div>
+    </article>
+
+    <!-- ── INNER CIRCLE (1×1) ── -->
+    <article class="card c-circle overlay-bottom" tabindex="0" aria-label="Goal: inner circle of 5+ people">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=400&fit=crop&q=85" alt="Close group of friends" loading="lazy">
+      <div class="circle-body">
+        <div class="circle-avatars">
+          <div class="avatar">A</div>
+          <div class="avatar">J</div>
+          <div class="avatar">M</div>
+          <div class="avatar">D</div>
+          <div class="avatar" style="background:rgba(201,168,76,0.1)">+</div>
+        </div>
+        <div class="card-title">The Inner Circle</div>
+        <div class="card-desc">5+ high-integrity people. Tight, loyal, real.</div>
+      </div>
+    </article>
+
+    <!-- ── CRISIS CALL (1×1) ── -->
+    <article class="card c-crisis overlay-full" tabindex="0" aria-label="Goal: be the person friends call in a crisis">
+      <img class="card-photo" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop&q=85" alt="Trusted friend" loading="lazy">
+      <div class="photo-body center">
+        <div class="card-title" style="font-style:italic;font-family:'Playfair Display',serif;">"The one they call when it all falls apart."</div>
+        <div class="card-desc" style="margin-top:8px;">Strength others lean on</div>
+      </div>
+    </article>
+
+    <!-- ── QUOTE (4×1) ── -->
+    <article class="card c-quote quote-card" tabindex="0" aria-label="Vision statement">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">Be the person your closest friends call in a <em>real crisis</em>. Build something that employs and improves lives.</div>
+      <div class="quote-attr">The standard · 2026–2031</div>
+    </article>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-line"></span>
+    <p>This is the version of yourself you're building toward</p>
+  </footer>
+
+</div>
+
+<script>
+// Graceful photo fallback
+document.querySelectorAll('img').forEach(img => {
+  img.onerror = function() {
+    this.style.display = 'none';
+    const card = this.closest('.card');
+    if (card) card.style.background = '#12111a';
+  };
+});
+</script>
+</body>
+</html>
